@@ -14,13 +14,17 @@ Then open `http://localhost:8000/`.
 
 ## Deployment
 
-The intended GitHub Pages project-site URL is:
+Project page:
 
-`https://<USERNAME>.github.io/fpi-unlearning/`
+`https://brunstud.github.io/fpi-unlearning/`
+
+Repository:
+
+`https://github.com/Brunstud/fpi-unlearning`
 
 Configure GitHub Pages to deploy from the `main` branch and repository root. The site uses relative paths and requires no build step.
 
-Scientific figures and their web renders are under `assets/figures/`; the anonymous paper PDF is under `assets/paper/`. Author details and public code, dataset, and model URLs are intentionally omitted while double-blind constraints apply.
+Scientific figures and their web renders are under `assets/figures/`; the project paper PDF is under `assets/paper/`. Public code, dataset, and model URLs remain placeholders until those materials are released.
 
 PDF figures were rendered for the web at 200 DPI while retaining the originals. To reproduce an individual render:
 
