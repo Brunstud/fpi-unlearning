@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>On the Recoverability of Private Information Unlearning in Large Language Models</title>
+  <meta name="description" content="A white-box study of whether private information targeted by LLM unlearning is erased or remains recoverable from model logits.">
+  <meta name="theme-color" content="#163a78">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="On the Recoverability of Private Information Unlearning in Large Language Models">
+  <meta property="og:description" content="Forgotten does not necessarily mean erased: auditing private-information unlearning through model logits.">
+  <meta property="og:image" content="assets/logos/fpi-logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logos/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/logos/favicon-16.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#overview" aria-label="FPI Unlearning home">
+        <img src="assets/logos/favicon-32.png" width="32" height="32" alt="">
+        <span>FPI Unlearning</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#overview">Overview</a>
+        <a href="#fpi">FPI</a>
+        <a href="#auditing">Auditing</a>
+        <a href="#recovery">Recovery</a>
+        <a href="#results">Results</a>
+        <a href="#resources">Resources</a>
+      </nav>
+
+      <details class="mobile-nav">
+        <summary>Menu</summary>
+        <nav aria-label="Mobile navigation">
+          <a href="#overview">Overview</a>
+          <a href="#fpi">FPI</a>
+          <a href="#auditing">Auditing</a>
+          <a href="#recovery">Recovery</a>
+          <a href="#results">Results</a>
+          <a href="#resources">Resources</a>
+        </nav>
+      </details>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" id="overview" aria-labelledby="paper-title">
+      <div class="hero-inner">
+        <p class="eyebrow">Private-information unlearning · White-box auditing</p>
+        <h1 id="paper-title">On the Recoverability of Private Information Unlearning in Large Language Models</h1>
+        <p class="review-status">Anonymous · under double-blind review</p>
+        <p class="hero-tagline">Forgotten <span aria-hidden="true">≠</span><span class="sr-only">does not equal</span> Erased.</p>
+        <p class="hero-summary">
+          We study whether private information targeted by LLM unlearning is genuinely removed or merely suppressed under standard generation. White-box audits of output logits reveal that information which appears forgotten can remain recoverable.
+        </p>
+
+        <!-- Resource configuration: Paper=local PDF; Code/Dataset/Models=TODO; BibTeX=#citation. -->
+        <div class="resource-row" aria-label="Project resources">
+          <a class="resource-link" href="assets/paper/LLM_Unlearning___COLM_2026_Conference_Submission.pdf">
+            <img src="assets/icons/paper.png" width="26" height="25" alt="">
+            <span>Paper</span>
+          </a>
+          <span class="resource-link is-disabled" aria-label="Code, coming soon">
+            <img src="assets/icons/code.png" width="26" height="25" alt="">
+            <span>Code <small>Coming soon</small></span>
+          </span>
+          <span class="resource-link is-disabled" aria-label="Dataset, coming soon">
+            <img src="assets/icons/dataset.png" width="26" height="25" alt="">
+            <span>Dataset <small>Coming soon</small></span>
+          </span>
+          <span class="resource-link is-disabled" aria-label="Models, coming soon">
+            <img src="assets/icons/model.png" width="26" height="25" alt="">
+            <span>Models <small>Coming soon</small></span>
+          </span>
+          <a class="resource-link" href="#citation">
+            <img src="assets/icons/bibtex.png" width="26" height="25" alt="">
+            <span>BibTeX</span>
+          </a>
+        </div>
+
+        <div class="hero-contrast" aria-label="Standard evaluation compared with white-box auditing">
+          <div>
+            <span class="contrast-index">01</span>
+            <p class="contrast-label">Standard generation</p>
+            <p>Asks whether the model still produces the target answer under its ordinary decoding strategy.</p>
+          </div>
+          <div class="contrast-divider" aria-hidden="true"></div>
+          <div>
+            <span class="contrast-index accent">02</span>
+            <p class="contrast-label">White-box audit</p>
+            <p>Asks whether the intended-to-be-forgotten information remains recoverable from the unlearned model.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section question-section" aria-labelledby="question-title">
+      <div class="text-container centered">
+        <p class="section-kicker">The evaluation gap</p>
+        <h2 id="question-title">Forgotten—or merely hidden?</h2>
+        <p class="section-lead">Private information is often structured and uniquely defined. That makes exact, attribute-specific evaluation possible, but it also exposes a gap between changing visible behavior and removing the underlying information.</p>
+      </div>
+
+      <div class="step-flow wide-container" aria-label="From unlearning to recovery auditing">
+        <article class="step">
+          <span class="step-number">1</span>
+          <img src="assets/icons/privacy.png" width="56" height="54" alt="">
+          <div>
+            <h3>Unlearn target PI</h3>
+            <p>A finetuning-based method modifies the model to degrade performance on a designated forget set.</p>
+          </div>
+        </article>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <article class="step">
+          <span class="step-number">2</span>
+          <div class="output-mark" aria-hidden="true">?</div>
+          <div>
+            <h3>Observe apparent forgetting</h3>
+            <p>Under ordinary decoding, the model refuses, answers incorrectly, or generates an invalid value.</p>
+          </div>
+        </article>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <article class="step">
+          <span class="step-number">3</span>
+          <img src="assets/icons/audit.png" width="56" height="54" alt="">
+          <div>
+            <h3>Audit recoverability</h3>
+            <p>A white-box auditor probes attribute-relevant logits to test whether suppression amounts to erasure.</p>
+          </div>
+        </article>
+      </div>
+
+      <blockquote class="research-question text-container">
+        Does unlearning erase private information, or merely suppress it under standard decoding?
+      </blockquote>
+    </section>
+
+    <section class="section fpi-section" id="fpi" aria-labelledby="fpi-title">
+      <div class="wide-container split-layout">
+        <div class="split-copy">
+          <div class="section-heading with-icon">
+            <img src="assets/icons/fpi.png" width="48" height="46" alt="">
+            <div>
+              <p class="section-kicker">Controlled evaluation</p>
+              <h2 id="fpi-title">The Fake Private Information dataset</h2>
+            </div>
+          </div>
+          <p class="section-lead">Real private data should not be released for benchmarking. FPI instead builds fictitious profiles and paraphrased question–answer pairs, providing known ground truth for clean, attribute-specific auditing.</p>
+
+          <dl class="stats" aria-label="FPI dataset statistics">
+            <div><dt>400</dt><dd>Synthetic profiles</dd></div>
+            <div><dt>6,400</dt><dd>Question–answer pairs</dd></div>
+            <div><dt>4</dt><dd>Private attributes</dd></div>
+            <div><dt>5</dt><dd>Unlearning methods evaluated</dd></div>
+          </dl>
+
+          <div class="attribute-list" aria-label="Private information attributes">
+            <span>Year of birth</span>
+            <span>Blood type</span>
+            <span>Postcode</span>
+            <span>Social insurance number</span>
+          </div>
+
+          <p>Each profile contains all four attributes. For every person–attribute pair, four paraphrased questions share the same answer, yielding 16 QA pairs per profile.</p>
+        </div>
+
+        <figure class="paper-figure portrait-figure">
+          <a class="figure-open" href="assets/figures/FPI.pdf" data-image="assets/figures/FPI.png" data-kind="portrait" data-caption="FPI construction: fictitious profiles are transformed into paraphrased question–answer pairs.">
+            <img src="assets/figures/FPI.png" width="1064" height="1238" alt="Diagram showing fictitious personal profiles with year of birth, SIN, postcode, and blood type transformed into question–answer pairs." loading="lazy" decoding="async">
+            <span class="enlarge-hint">View larger</span>
+          </a>
+          <figcaption>FPI construction: fictitious profiles are transformed into paraphrased question–answer pairs. Values shown in the figure are synthetic.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="auditing" aria-labelledby="auditing-title">
+      <div class="text-container">
+        <div class="section-heading with-icon">
+          <img src="assets/icons/audit.png" width="48" height="46" alt="">
+          <div>
+            <p class="section-kicker">Threat model</p>
+            <h2 id="auditing-title">White-box auditing</h2>
+          </div>
+        </div>
+        <p class="section-lead">The audit asks a stronger question than black-box evaluation: given the unlearned model and knowledge of how it was produced, how much target PI can an auditor recover?</p>
+      </div>
+
+      <div class="audit-panel wide-container">
+        <div>
+          <p class="panel-label">The auditor is given</p>
+          <ul>
+            <li>Full access to the unlearned model and its logits</li>
+            <li>Knowledge of the unlearning algorithm</li>
+            <li>The retain set and forget-set prompts</li>
+            <li>For FPI, answer text with the sensitive attribute masked out</li>
+          </ul>
+        </div>
+        <div>
+          <p class="panel-label">The auditor’s goal</p>
+          <p class="audit-goal">Recover as much of the target private information as possible—and determine whether it was erased or only concealed.</p>
+          <p class="audit-note">The paper focuses its experiments on finetuning-based methods, where model parameters actually change. Prompt- and decoding-based methods leave the underlying transformer unchanged and are therefore direct to reverse in this white-box setting.</p>
+        </div>
+      </div>
+
+      <div class="metric-note text-container">
+        <p><strong>Reading forget quality.</strong> Higher forget quality means more error on the forget set under a given decoding strategy. If an audit makes that score fall, the model is again producing values closer to the ground truth—evidence of recovery.</p>
+      </div>
+    </section>
+
+    <section class="section recovery-section" id="recovery" aria-labelledby="recovery-title">
+      <div class="text-container">
+        <div class="section-heading with-icon">
+          <img src="assets/icons/recovery.png" width="48" height="46" alt="">
+          <div>
+            <p class="section-kicker">Recovery methods</p>
+            <h2 id="recovery-title">Look where unlearning pushes the answer</h2>
+          </div>
+        </div>
+        <p class="section-lead">Loss-increasing unlearning can move target tokens into low-likelihood regions rather than remove their trace. Restricted Inverse Greedy (RIG) tests this possibility by selecting the least likely token at each step within an attribute-valid candidate set.</p>
+      </div>
+
+      <div class="decoder-illustration wide-container" aria-label="Illustration of restricted greedy and restricted inverse greedy decoding">
+        <p class="illustration-label">Illustration · year-of-birth candidate space</p>
+        <div class="token-line" aria-label="Candidate years 1975, 1976, 1987, 1998, and 2005">
+          <span>1975</span><span>1976</span><span>1987</span><span>1998</span><span>2005</span>
+        </div>
+        <div class="decoder-rows">
+          <div>
+            <span class="decoder-name rg">RG</span>
+            <p><strong>Restricted Greedy</strong> selects the highest-likelihood option inside the valid attribute space.</p>
+          </div>
+          <div>
+            <span class="decoder-name rig">RIG</span>
+            <p><strong>Restricted Inverse Greedy</strong> selects the lowest-likelihood option inside that same valid space.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="method-notes text-container">
+        <p><strong>RIG</strong> audits GA, GD, and GA+KL, which directly increase loss on the original forget data. Candidate sets encode valid forms: digits for SIN, alternating letters and digits for postcode, the known year range, or the eight blood-type labels.</p>
+        <p><strong>RG</strong> is used for Preference Optimization behavior. PO lowers loss on modified question–rejection pairs rather than increasing loss on the original answer, so high-likelihood tokens within the valid attribute space are the appropriate probe. RIG and RG are not interchangeable.</p>
+      </div>
+    </section>
+
+    <section class="section results-section" id="results" aria-labelledby="results-title">
+      <div class="text-container centered">
+        <p class="section-kicker">Main result · DeepSeek-7B</p>
+        <h2 id="results-title">High apparent forget quality can mask substantial recoverability.</h2>
+        <p class="section-lead">Across attributes, standard decoding often indicates strong forgetting. RIG or RG can sharply lower the measured forget quality, showing that target information remains accessible through the model’s logits.</p>
+      </div>
+
+      <figure class="paper-figure result-figure wide-container">
+        <a class="figure-open" href="assets/figures/unlearning_overview_horizontal.pdf" data-image="assets/figures/web/unlearning_overview_horizontal.png" data-kind="wide" data-caption="Original and audited forget quality for four FPI attributes on DeepSeek-7B.">
+          <img src="assets/figures/web/unlearning_overview_horizontal.png" width="3504" height="1006" alt="Four bar charts for blood type, year of birth, postcode, and social insurance number. Original forget quality is high for many unlearning methods, while RIG or RG substantially lowers it; retraining from scratch remains comparatively stable." loading="lazy" decoding="async">
+          <span class="enlarge-hint">View full-size figure</span>
+        </a>
+        <figcaption><strong>Original forget quality</strong> (pink) compared with RIG recovery (green) and RG recovery (blue). The retrained model <em>f*</em>, which never sees forget samples, provides a reference rather than another approximate unlearning method.</figcaption>
+      </figure>
+
+      <div class="result-notes wide-container">
+        <div class="numeric-callout">
+          <span class="callout-number">≈97%</span>
+          <span>of supposedly forgotten postcodes are recovered in the paper’s GA+KL example under RIG.</span>
+        </div>
+        <div class="legend-explanation">
+          <p><strong>Pink → green:</strong> GA, GD, and GA+KL are audited with RIG. A large downward gap means the attribute is much closer to its true value after the audit.</p>
+          <p><strong>Pink → blue:</strong> NPO is audited with RG in this comparison. PO is also audited with RG and reported separately in the paper.</p>
+          <p><strong>Retrain reference:</strong> RIG does not produce the same consistent degradation on the retrained-from-scratch model, supporting its role as the ideal comparison.</p>
+        </div>
+      </div>
+
+      <aside class="meaning-box text-container" aria-labelledby="meaning-title">
+        <p class="section-kicker">What this means</p>
+        <h3 id="meaning-title">Successful suppression is not sufficient evidence of erasure.</h3>
+        <ul>
+          <li>PI-unlearning evaluation should include recoverability-oriented audits, not only ordinary generation.</li>
+          <li>Refusals, invalid strings, and wrong answers can coexist with recoverable target information.</li>
+          <li>Retraining without the forget samples remains an important reference for judging approximate methods.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="section analyses-section" aria-labelledby="analyses-title">
+      <div class="text-container centered">
+        <p class="section-kicker">Additional analyses</p>
+        <h2 id="analyses-title">The recovery gap persists across models and training dynamics.</h2>
+        <p class="section-lead">Supporting experiments reproduce the principal comparison on Qwen3-8B and trace how apparent forgetting and audited recovery diverge during GD unlearning.</p>
+      </div>
+
+      <div class="analysis-stack wide-container">
+        <figure class="paper-figure">
+          <a class="figure-open" href="assets/figures/unlearning_overview_horizontal-Qwen.pdf" data-image="assets/figures/web/unlearning_overview_horizontal-Qwen.png" data-kind="wide" data-caption="Main comparison reproduced on Qwen3-8B.">
+            <img src="assets/figures/web/unlearning_overview_horizontal-Qwen.png" width="3504" height="1006" alt="Four bar charts reproducing the original and audited forget-quality comparison on Qwen3-8B across the four FPI attributes." loading="lazy" decoding="async">
+            <span class="enlarge-hint">View full-size figure</span>
+          </a>
+          <figcaption><strong>Cross-model replication.</strong> The main comparison reproduced on Qwen3-8B.</figcaption>
+        </figure>
+
+        <figure class="paper-figure">
+          <a class="figure-open" href="assets/figures/combined_trajectory.pdf" data-image="assets/figures/web/combined_trajectory.png" data-kind="wide" data-caption="GD unlearning trajectories under standard and RIG decoding.">
+            <img src="assets/figures/web/combined_trajectory.png" width="4824" height="1335" alt="Four line charts showing standard forget quality generally rising while forget quality under RIG falls across GD training iterations for blood type, year of birth, postcode, and social insurance number." loading="lazy" decoding="async">
+            <span class="enlarge-hint">View full-size figure</span>
+          </a>
+          <figcaption><strong>Unlearning dynamics.</strong> During GD training, standard forget quality (pink) rises while audited forget quality under RIG (green) generally falls, revealing an increasing recovery gap.</figcaption>
+        </figure>
+      </div>
+
+      <div class="wide-container disclosures">
+        <details>
+          <summary>
+            <span>Learning-rate trade-offs</span>
+            <small>Forget quality · audited recovery · utility</small>
+          </summary>
+          <div class="disclosure-body">
+            <p>The paper finds a recurring tension: settings that resist RIG often incur severe utility degradation, while utility-preserving settings tend to leave recoverable traces. Each plot below compares GA, GD, GA+KL, and NPO after 50 unlearning iterations.</p>
+            <div class="figure-grid">
+              <figure class="paper-figure compact-figure">
+                <a class="figure-open" href="assets/figures/lr_blood.pdf" data-image="assets/figures/web/lr_blood.png" data-kind="wide" data-caption="Learning-rate ablation for blood type.">
+                  <img src="assets/figures/web/lr_blood.png" width="2540" height="1141" alt="Learning-rate ablation comparing forget quality, audited recovery, and utility for blood type." loading="lazy" decoding="async">
+                </a>
+                <figcaption>Blood type</figcaption>
+              </figure>
+              <figure class="paper-figure compact-figure">
+                <a class="figure-open" href="assets/figures/lr_year.pdf" data-image="assets/figures/web/lr_year.png" data-kind="wide" data-caption="Learning-rate ablation for year of birth.">
+                  <img src="assets/figures/web/lr_year.png" width="2540" height="1141" alt="Learning-rate ablation comparing forget quality, audited recovery, and utility for year of birth." loading="lazy" decoding="async">
+                </a>
+                <figcaption>Year of birth</figcaption>
+              </figure>
+              <figure class="paper-figure compact-figure">
+                <a class="figure-open" href="assets/figures/lr_postcode.pdf" data-image="assets/figures/web/lr_postcode.png" data-kind="wide" data-caption="Learning-rate ablation for postcode.">
+                  <img src="assets/figures/web/lr_postcode.png" width="2540" height="1141" alt="Learning-rate ablation comparing forget quality, audited recovery, and utility for postcode." loading="lazy" decoding="async">
+                </a>
+                <figcaption>Postcode</figcaption>
+              </figure>
+              <figure class="paper-figure compact-figure">
+                <a class="figure-open" href="assets/figures/lr_sin.pdf" data-image="assets/figures/web/lr_sin.png" data-kind="wide" data-caption="Learning-rate ablation for social insurance number.">
+                  <img src="assets/figures/web/lr_sin.png" width="2540" height="1141" alt="Learning-rate ablation comparing forget quality, audited recovery, and utility for social insurance number." loading="lazy" decoding="async">
+                </a>
+                <figcaption>Social insurance number</figcaption>
+              </figure>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span>Restricted beam-search audit</span>
+            <small>NPO · postcode and SIN</small>
+          </summary>
+          <div class="disclosure-body beam-layout">
+            <div>
+              <p>NPO appears comparatively resistant to one-step RG recovery for postcode and SIN. Restricted beam search provides a broader audit: candidate sequences drawn from attribute-valid, high-likelihood paths achieve lower minimum error than equally sized sets of random guesses.</p>
+              <p>This supporting result indicates that traces can remain in the logits even when the simpler RG probe finds little.</p>
+            </div>
+            <figure class="paper-figure compact-figure">
+              <a class="figure-open" href="assets/figures/beam_traj.pdf" data-image="assets/figures/web/beam_traj.png" data-kind="standard" data-caption="Restricted beam-search recovery for postcode and SIN compared with random guessing.">
+                <img src="assets/figures/web/beam_traj.png" width="1490" height="894" alt="Line chart comparing minimum error from restricted beam search with random guessing for postcode and social insurance number as the number of candidate sequences grows." loading="lazy" decoding="async">
+              </a>
+              <figcaption>Restricted beam search compared with random guessing.</figcaption>
+            </figure>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section resources-section" id="resources" aria-labelledby="resources-title">
+      <div class="text-container centered">
+        <p class="section-kicker">Project materials</p>
+        <h2 id="resources-title">Resources</h2>
+        <p class="section-lead">The anonymous submission is available locally. Public code, dataset, and model URLs have not been provided and are intentionally left as release placeholders.</p>
+      </div>
+
+      <div class="resource-list wide-container">
+        <a href="assets/paper/LLM_Unlearning___COLM_2026_Conference_Submission.pdf">
+          <img src="assets/icons/paper.png" width="42" height="40" alt="">
+          <span><strong>Paper</strong><small>Anonymous COLM 2026 submission PDF</small></span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        <div aria-label="Code, coming soon">
+          <img src="assets/icons/code.png" width="42" height="40" alt="">
+          <span><strong>Code</strong><small>Coming soon</small></span>
+        </div>
+        <div aria-label="Dataset, coming soon">
+          <img src="assets/icons/dataset.png" width="42" height="40" alt="">
+          <span><strong>Dataset</strong><small>Coming soon</small></span>
+        </div>
+        <div aria-label="Models, coming soon">
+          <img src="assets/icons/model.png" width="42" height="40" alt="">
+          <span><strong>Models</strong><small>Coming soon</small></span>
+        </div>
+      </div>
+
+      <div class="citation text-container" id="citation">
+        <div class="citation-heading">
+          <img src="assets/icons/bibtex.png" width="44" height="42" alt="">
+          <div>
+            <p class="section-kicker">Citation</p>
+            <h3>BibTeX</h3>
+          </div>
+        </div>
+        <p>BibTeX will be added after the public paper release.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wide-container footer-inner">
+      <div class="footer-brand">
+        <img src="assets/logos/favicon-32.png" width="28" height="28" alt="">
+        <strong>FPI Unlearning</strong>
+      </div>
+      <p>Private-information unlearning under white-box auditing · Academic project page</p>
+    </div>
+  </footer>
+
+  <dialog class="lightbox" aria-labelledby="lightbox-caption">
+    <div class="lightbox-toolbar">
+      <a class="lightbox-pdf" href="assets/figures/FPI.pdf" target="_blank" rel="noopener">Open original PDF</a>
+      <form method="dialog"><button type="submit" aria-label="Close enlarged figure">Close</button></form>
+    </div>
+    <div class="lightbox-scroller">
+      <img class="lightbox-image" src="assets/figures/FPI.png" alt="">
+    </div>
+    <p id="lightbox-caption" class="lightbox-caption"></p>
+  </dialog>
+</body>
+</html>
