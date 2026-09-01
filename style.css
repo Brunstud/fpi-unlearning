@@ -293,7 +293,7 @@ p {
 }
 
 .hero-tagline {
-  margin: 24px 0 11px;
+  margin: 20px 0 0;
   color: var(--navy);
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(27px, 3.2vw, 41px);
@@ -309,7 +309,7 @@ p {
 
 .hero-summary {
   max-width: 770px;
-  margin: 0 auto;
+  margin: 25px auto 0;
   color: #445168;
   font-size: 19px;
   line-height: 1.72;
@@ -332,21 +332,19 @@ p {
   color: var(--navy-deep);
   background: var(--white);
   border: 1px solid var(--line-dark);
-  border-radius: 9px;
-  box-shadow: 0 2px 8px rgb(23 41 76 / 4%);
+  border-radius: 6px;
   font-size: 15px;
   font-weight: 700;
   line-height: 1.15;
   text-align: left;
   text-decoration: none;
-  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  transition: border-color 160ms ease, background-color 160ms ease;
 }
 
 a.resource-link:hover {
   color: var(--navy);
+  background: var(--blue-soft);
   border-color: #9cb7df;
-  box-shadow: 0 5px 15px rgb(23 41 76 / 9%);
-  transform: translateY(-1px);
 }
 
 .resource-link img {
@@ -656,7 +654,7 @@ a.resource-link:hover {
 }
 
 .recovery-section {
-  background: linear-gradient(180deg, #f9fbff, #fff);
+  background: #fbfcfe;
   border-top: 1px solid var(--line);
 }
 
@@ -1113,15 +1111,30 @@ a.resource-link:hover {
   font-size: 28px;
 }
 
-.citation > p {
-  margin: 16px 0 0;
-  color: var(--muted);
+.citation pre {
+  margin: 20px 0 0;
+  padding: 18px 20px;
+  overflow-x: auto;
+  color: #24324a;
+  background: #f7f9fc;
+  border: 1px solid var(--line-dark);
+  border-radius: 5px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  font-size: 13.5px;
+  line-height: 1.55;
+  tab-size: 2;
+  white-space: pre;
+}
+
+.citation code {
+  font: inherit;
 }
 
 .site-footer {
   padding: 31px 0;
-  color: #aebed6;
-  background: var(--navy-deep);
+  color: var(--muted);
+  background: #fbfcfe;
+  border-top: 1px solid var(--line);
 }
 
 .footer-inner {
@@ -1135,7 +1148,7 @@ a.resource-link:hover {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--white);
+  color: var(--navy-deep);
   font-size: 16px;
 }
 
@@ -1145,8 +1158,19 @@ a.resource-link:hover {
 }
 
 .site-footer p {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 2px;
   margin: 0;
   font-size: 13px;
+  text-align: right;
+}
+
+.site-footer p span:first-child {
+  color: #43506a;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
 }
 
 .lightbox {
@@ -1400,6 +1424,11 @@ a.resource-link:hover {
     flex-direction: column;
     gap: 12px;
   }
+
+  .site-footer p {
+    align-items: flex-start;
+    text-align: left;
+  }
 }
 
 @media (max-width: 560px) {
@@ -1436,7 +1465,7 @@ a.resource-link:hover {
   }
 
   .hero-tagline {
-    margin-top: 22px;
+    margin-top: 18px;
   }
 
   .resource-row {
@@ -1574,6 +1603,13 @@ a.resource-link:hover {
   .resource-list > div {
     min-height: 87px;
     padding: 15px;
+  }
+
+  .citation pre {
+    margin-inline: -15px;
+    padding-inline: 15px;
+    border-inline: 0;
+    border-radius: 0;
   }
 
   .lightbox {

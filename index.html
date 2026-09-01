@@ -4,18 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>On the Recoverability of Private Information Unlearning in Large Language Models</title>
-  <meta name="description" content="A white-box study of whether private information targeted by LLM unlearning is erased or remains recoverable from model logits.">
-  <meta name="author" content="Runzhi Tian, Shicheng Hu, Ziqiao Wang, Yongyi Mao">
+  <meta name="description" content="FPI is a benchmark for auditing private-information unlearning in large language models, revealing through white-box analysis when apparently forgotten information remains recoverable.">
+  <meta name="author" content="Shicheng Hu, Runzhi Tian, Ziqiao Wang, Yongyi Mao">
   <meta name="theme-color" content="#163a78">
   <link rel="canonical" href="https://brunstud.github.io/fpi-unlearning/">
+  <meta name="citation_title" content="On the Recoverability of Private Information Unlearning in Large Language Models">
+  <meta name="citation_author" content="Shicheng Hu">
+  <meta name="citation_author" content="Runzhi Tian">
+  <meta name="citation_author" content="Ziqiao Wang">
+  <meta name="citation_author" content="Yongyi Mao">
+  <meta name="citation_publication_date" content="2026/08/30">
+  <meta name="citation_arxiv_id" content="2608.29943">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2608.29943">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://brunstud.github.io/fpi-unlearning/">
   <meta property="og:title" content="On the Recoverability of Private Information Unlearning in Large Language Models">
-  <meta property="og:description" content="Forgotten does not necessarily mean erased: auditing private-information unlearning through model logits.">
+  <meta property="og:description" content="The FPI benchmark and white-box audits show when private information that appears forgotten remains recoverable from an unlearned language model.">
   <meta property="og:image" content="https://brunstud.github.io/fpi-unlearning/assets/logos/fpi-logo.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="On the Recoverability of Private Information Unlearning in Large Language Models">
-  <meta name="twitter:description" content="Forgotten does not necessarily mean erased: auditing private-information unlearning through model logits.">
+  <meta name="twitter:description" content="The FPI benchmark and white-box audits show when private information that appears forgotten remains recoverable from an unlearned language model.">
   <meta name="twitter:image" content="https://brunstud.github.io/fpi-unlearning/assets/logos/fpi-logo.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/logos/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/logos/favicon-16.png">
@@ -62,9 +70,9 @@
         <h1 id="paper-title">On the Recoverability of Private Information Unlearning in Large Language Models</h1>
         <div class="author-block" aria-label="Paper authors">
           <p class="author-list">
-            <a href="https://openreview.net/profile?id=~Runzhi_Tian1" rel="author noopener" target="_blank">Runzhi Tian<sup>†</sup></a>
-            <span aria-hidden="true">·</span>
             <a href="https://openreview.net/profile?id=~Shicheng_Hu1" rel="author noopener" target="_blank">Shicheng Hu<sup>†</sup></a>
+            <span aria-hidden="true">·</span>
+            <a href="https://openreview.net/profile?id=~Runzhi_Tian1" rel="author noopener" target="_blank">Runzhi Tian<sup>†</sup></a>
             <span aria-hidden="true">·</span>
             <a href="https://openreview.net/profile?id=~Ziqiao_Wang1" rel="author noopener" target="_blank">Ziqiao Wang</a>
             <span aria-hidden="true">·</span>
@@ -73,23 +81,21 @@
           <p class="contribution-note"><sup>†</sup> Equal contribution</p>
           <!-- TODO: Add verified affiliation information when supplied. -->
         </div>
-        <p class="hero-tagline">Forgotten <span aria-hidden="true">≠</span><span class="sr-only">does not equal</span> Erased.</p>
         <p class="hero-summary">
           We study whether private information targeted by LLM unlearning is genuinely removed or merely suppressed under standard generation. White-box audits of output logits reveal that information which appears forgotten can remain recoverable.
         </p>
+        <p class="hero-tagline">Forgotten <span aria-hidden="true">≠</span><span class="sr-only">does not equal</span> Erased.</p>
 
-        <!-- Resource configuration: Paper=local PDF; Code/Dataset/Models=TODO; BibTeX=#citation. -->
         <div class="resource-row" aria-label="Project resources">
-          <a class="resource-link" href="assets/paper/LLM_Unlearning___COLM_2026_Conference_Submission.pdf">
+          <a class="resource-link" href="https://arxiv.org/pdf/2608.29943">
             <img src="assets/icons/paper.png" width="30" height="29" alt="">
             <span>Paper</span>
           </a>
-          <span class="resource-link is-disabled" aria-label="Code, coming soon">
+          <a class="resource-link" href="https://github.com/rzTian/LLM-Unlearning-Recovery">
             <img src="assets/icons/code.png" width="30" height="29" alt="">
-            <span>Code <small>Coming soon</small></span>
-          </span>
+            <span>Code</span>
+          </a>
           <a class="resource-link" href="https://huggingface.co/datasets/shichenghu/personal-info-unlearning">
-          <!-- <span class="resource-link is-disabled" aria-label="Dataset, coming soon"> -->
             <img src="assets/icons/dataset.png" width="30" height="29" alt="">
             <span>Dataset</span>
           </a>
@@ -405,28 +411,28 @@
       <div class="text-container centered" id="resources">
         <p class="section-kicker">Project materials</p>
         <h2 id="resources-title">Resources</h2>
-        <p class="section-lead">The paper is available here. Code, dataset, and model URLs have not yet been released and remain visible placeholders.</p>
+        <p class="section-lead">Read the paper, inspect the official implementation, or use the FPI benchmark to reproduce and extend the study.</p>
       </div>
 
       <div class="resource-list wide-container">
-        <a href="assets/paper/LLM_Unlearning___COLM_2026_Conference_Submission.pdf">
+        <a href="https://arxiv.org/pdf/2608.29943">
           <img src="assets/icons/paper.png" width="40" height="39" alt="">
-          <span><strong>Paper</strong><small>Current project paper PDF</small></span>
+          <span><strong>Paper</strong><small>arXiv:2608.29943</small></span>
           <span aria-hidden="true">↗</span>
         </a>
-        <div aria-label="Code, coming soon">
+        <a href="https://github.com/rzTian/LLM-Unlearning-Recovery">
           <img src="assets/icons/code.png" width="40" height="39" alt="">
-          <span><strong>Code</strong><small>Coming soon</small></span>
-        </div>
+          <span><strong>Code</strong><small>Official implementation</small></span>
+          <span aria-hidden="true">↗</span>
+        </a>
         <a href="https://huggingface.co/datasets/shichenghu/personal-info-unlearning">
-        <!-- <div aria-label="Dataset, coming soon"> -->
           <img src="assets/icons/dataset.png" width="40" height="39" alt="">
-          <span><strong>Dataset</strong><small>personal-info-unlearning </small></span>
+          <span><strong>Dataset</strong><small>FPI benchmark</small></span>
           <span aria-hidden="true">↗</span>
         </a>
         <div aria-label="Models, coming soon">
           <img src="assets/icons/model.png" width="40" height="39" alt="">
-          <span><strong>Models</strong><small>Coming soon</small></span>
+          <span><strong>Models</strong><small>LoRA adapters · Coming soon</small></span>
         </div>
       </div>
 
@@ -438,7 +444,16 @@
             <h3>BibTeX</h3>
           </div>
         </div>
-        <p>BibTeX will be added after the public paper release.</p>
+
+        <pre><code>@misc{hu2026recoverability,
+  title={On the Recoverability of Private Information Unlearning in Large Language Models},
+  author={Shicheng Hu and Runzhi Tian and Ziqiao Wang and Yongyi Mao},
+  year={2026},
+  eprint={2608.29943},
+  archivePrefix={arXiv},
+  primaryClass={cs.LG},
+  url={https://arxiv.org/abs/2608.29943}
+}</code></pre>
       </div>
     </section>
   </main>
@@ -449,7 +464,7 @@
         <img src="assets/logos/favicon-32.png" width="32" height="32" alt="">
         <strong>FPI Unlearning</strong>
       </div>
-      <p>Private-information unlearning under white-box auditing · Academic project page</p>
+      <p><span>On the Recoverability of Private Information Unlearning in Large Language Models</span><span>arXiv:2608.29943 · 2026</span></p>
     </div>
   </footer>
 

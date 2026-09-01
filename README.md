@@ -24,7 +24,13 @@ Repository:
 
 Configure GitHub Pages to deploy from the `main` branch and repository root. The site uses relative paths and requires no build step.
 
-Scientific figures and their web renders are under `assets/figures/`; the project paper PDF is under `assets/paper/`. Public code, dataset, and model URLs remain placeholders until those materials are released.
+Scientific figures and their web renders are under `assets/figures/`. The public paper, implementation, and dataset are available at:
+
+- Paper: <https://arxiv.org/abs/2608.29943>
+- Code: <https://github.com/rzTian/LLM-Unlearning-Recovery>
+- Dataset: <https://huggingface.co/datasets/shichenghu/personal-info-unlearning>
+
+Model adapters are coming soon.
 
 PDF figures were rendered for the web at 200 DPI while retaining the originals. To reproduce an individual render:
 
